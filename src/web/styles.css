@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Monochrome surfaces; status colors carry state; bots carry the only identity color. */
+:root {
+  --background: #ffffff;
+  --foreground: #18181b;
+  --sidebar: #f4f4f2;
+  --card: #ffffff;
+  --muted: #f1f1ef;
+  --muted-foreground: #71717a;
+  --border: #e6e6e3;
+  --input: #d9d9d5;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --bubble: #ececea;
+  --user-bubble: #e6e6e2;
+  --user-bubble-foreground: #18181b;
+  --success: #16a34a;
+  --warning: #d97706;
+  --destructive: #dc2626;
+  --canvas: #f6f6f4;
+  --canvas-dot: #d6d6d2;
+  --edge: #a1a1aa;
+  --overlay: rgb(9 9 11 / 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0d0d0e;
+    --foreground: #f4f4f5;
+    --sidebar: #111112;
+    --card: #17171a;
+    --muted: #1f1f23;
+    --muted-foreground: #a1a1aa;
+    --border: #27272b;
+    --input: #3a3a40;
+    --primary: #f4f4f5;
+    --primary-foreground: #18181b;
+    --bubble: #232327;
+    --user-bubble: #ececea;
+    --user-bubble-foreground: #18181b;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --destructive: #ef4444;
+    --canvas: #0f0f11;
+    --canvas-dot: #2a2a2e;
+    --edge: #52525b;
+    --overlay: rgb(0 0 0 / 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  --background: #0d0d0e;
+  --foreground: #f4f4f5;
+  --sidebar: #111112;
+  --card: #17171a;
+  --muted: #1f1f23;
+  --muted-foreground: #a1a1aa;
+  --border: #27272b;
+  --input: #3a3a40;
+  --primary: #f4f4f5;
+  --primary-foreground: #18181b;
+  --bubble: #232327;
+  --user-bubble: #ececea;
+  --user-bubble-foreground: #18181b;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+  --canvas: #0f0f11;
+  --canvas-dot: #2a2a2e;
+  --edge: #52525b;
+  --overlay: rgb(0 0 0 / 0.6);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-bubble: var(--bubble);
+  --color-user-bubble: var(--user-bubble);
+  --color-user-bubble-foreground: var(--user-bubble-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-canvas: var(--canvas);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+}
+
+/* ---------- Canvas ---------- */
+
+.react-flow {
+  --xy-background-color: var(--canvas);
+  --xy-background-pattern-color: var(--canvas-dot);
+  --xy-edge-stroke: var(--edge);
+  --xy-handle-background-color: var(--card);
+  --xy-handle-border-color: var(--edge);
+  --xy-controls-button-background-color: var(--card);
+  --xy-controls-button-background-color-hover: var(--muted);
+  --xy-controls-button-color: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+  --xy-attribution-background-color: transparent;
+}
+
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  border-width: 1.5px;
+}
+
+.react-flow__node:focus-visible {
+  outline: none;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.edge-live {
+  stroke-dasharray: 6 4;
+  animation: flow 0.6s linear infinite;
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--halo) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--halo) 0%, transparent);
+  }
+}
+
+.node-live {
+  animation: halo 1.6s ease-in-out infinite;
+}
+
+/* ---------- Bot replies ---------- */
+
+.markdown {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.markdown > * + * {
+  margin-top: 0.6em;
+}
+.markdown ul {
+  list-style: disc;
+  padding-left: 1.25em;
+}
+.markdown ol {
+  list-style: decimal;
+  padding-left: 1.25em;
+}
+.markdown a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--muted);
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+}
+.markdown pre {
+  background: var(--muted);
+  border-radius: 8px;
+  padding: 0.75em;
+  overflow-x: auto;
+}
+.markdown pre code {
+  background: none;
+  padding: 0;
+}
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  font-weight: 600;
+}
+.markdown table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.markdown th,
+.markdown td {
+  border: 1px solid var(--border);
+  padding: 0.3em 0.6em;
+}
+
+/* ---------- Terminal ---------- */
+
+.xterm .xterm-viewport {
+  /* biome-ignore lint/complexity/noImportantStyles: xterm sets an inline background */
+  background: transparent !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge-live,
+  .node-live {
+    animation: none;
+  }
+}
